@@ -21,11 +21,20 @@ func main() {
 		return
 	}
 	
-	for _, file  =: range files{
-		if *ininteractive && !*force {
+	for _, file  := range files{
+		if *interactive && !*force {
 			if !confirm(file) {
 				continue
 			}
+		}
+		
+		err := os.Remove(file)
+		if err != nil {
+			if *force{
+				return
+			}
+			fmt.Fprintf(os.Stderr, "rm: %s: %v\n", file, err)
+			os.Exit(1)
 		}
 	}
 }
