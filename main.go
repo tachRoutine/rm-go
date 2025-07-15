@@ -20,6 +20,14 @@ func main() {
 		flag.Usage()
 		return
 	}
+	
+	for _, file  =: range files{
+		if *ininteractive && !*force {
+			if !confirm(file) {
+				continue
+			}
+		}
+	}
 }
 
 func confirm(file string) bool {
